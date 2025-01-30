@@ -6,5 +6,7 @@ class ProyectosScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
+
+        // Buscar segmentet button
     }
 }
