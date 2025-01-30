@@ -12,10 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import theme.*
 
 data class Proyecto(val id: Int, val nombre: String, val fecha: String)
 
@@ -35,40 +37,29 @@ class WelcomeScreen : Screen {
             Proyecto(8, "Proyecto8", "20/1/2025"),
         )
         Column(
-            modifier = Modifier.background(Color(0xFFe9ebbf)).fillMaxSize().padding(20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.background(Color(backgroundLight)).fillMaxSize().padding(20.dp)
         ) {
             Box(
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(7.dp)).background(Color(0xFFd8e472)).padding(20.dp),
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(7.dp)).background(Color(foregroundSecondaryDark)).padding(20.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                Button(
-                    onClick = {
-                        navigator?.pop()
-                    },
-                    modifier = Modifier.padding(20.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF5a4e3c))
-                ) {
-                    Text("Cerrar Sesión", color = Color.White)
-                }
-                Text(text = "Hola caballo homosexual de las montañas, te has registrado como gestor", fontSize = 20.sp)
+                Text(text = "Hola caballo homosexual de las montañas, te has registrado como gestor", fontSize = 20.sp, color = Color.White)
             }
 
             Spacer(modifier = Modifier.height(15.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(7.dp)).background(Color(0xFFd8e472)).padding(20.dp),
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(7.dp)).background(Color(foregroundDark)).padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Proyectos activos", fontSize = 25.sp, color = Color.White)
+                Text(text = "Proyectos activos", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.White)
                 Button(
                     onClick = {
                         navigator?.push(ProyectosScreen())
                     },
                     modifier = Modifier.padding(20.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF5a4e3c))
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(backgroundDark))
                 ) {
                     Text("Ver proyectos", color = Color.White)
                 }
@@ -76,11 +67,22 @@ class WelcomeScreen : Screen {
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.height(200.dp)
+            ) {
                 items(proyectosFinalizados) { proyecto ->
                     ProyectoItem(proyecto)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
+            }
+            Button(
+                onClick = {
+                    navigator?.pop()
+                },
+                modifier = Modifier.padding(20.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(backgroundDark))
+            ) {
+                Text("Cerrar Sesión", color = Color.White)
             }
         }
     }
@@ -88,12 +90,16 @@ class WelcomeScreen : Screen {
 
 @Composable
 fun ProyectoItem(proyecto: Proyecto) {
+    var colorFondo: Long = foregroundLight
+    if (proyecto.id % 2 == 0){
+        colorFondo = foregroundSecondaryLight
+    }
     Row(
-        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(7.dp)).background(Color(0xFFd8e472)).padding(20.dp),
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(7.dp)).background(Color(colorFondo)).padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(proyecto.nombre)
-        Text(proyecto.fecha)
+        Text(proyecto.fecha, color = Color.Red)
     }
 }

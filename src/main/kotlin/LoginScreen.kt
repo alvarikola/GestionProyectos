@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import theme.*
+
 
 
 class LoginScreen : Screen {
@@ -26,7 +28,7 @@ class LoginScreen : Screen {
         var passwd by remember { mutableStateOf("") }
 
         Column(
-            modifier = Modifier.fillMaxSize().background(Color(0xFFe9ebbf)),
+            modifier = Modifier.fillMaxSize().background(Color(backgroundLight)),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -34,7 +36,7 @@ class LoginScreen : Screen {
                 elevation = 15.dp
             ) {
                 Column(
-                    modifier = Modifier.background(Color(0xFFd8e472)),
+                    modifier = Modifier.background(Color(foregroundLight)),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -51,8 +53,8 @@ class LoginScreen : Screen {
                         label = { Text("Username") },
                         modifier = Modifier,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color(0xFF418e8e),
-                            focusedLabelColor = Color(0xFF5a4e3c)
+                            focusedBorderColor = Color(foregroundSecondaryDark),
+                            focusedLabelColor = Color(backgroundDark)
                         )
                     )
                     OutlinedTextField(
@@ -61,8 +63,8 @@ class LoginScreen : Screen {
                         label = { Text("Password") },
                         modifier = Modifier,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color(0xFF418e8e),
-                            focusedLabelColor = Color(0xFF5a4e3c)
+                            focusedBorderColor = Color(foregroundSecondaryDark),
+                            focusedLabelColor = Color(backgroundDark)
                         )
                     )
                     Button(
@@ -70,7 +72,7 @@ class LoginScreen : Screen {
                             navigator?.push(WelcomeScreen())
                         },
                         modifier = Modifier.padding(20.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF5a4e3c))
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(backgroundDark))
                     ) {
                         Text("Iniciar Sesión", color = Color.White)
                     }
