@@ -1,9 +1,11 @@
 package network
 
+import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import network.NetworkUtils.httpClient
 import utils.sha512
 
 fun apiLogIn(usuario: String, password: String, onSuccessResponse: (User) -> Unit) {
