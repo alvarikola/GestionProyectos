@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,7 +18,6 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import theme.*
 
-data class Proyecto(val id: Int, val nombre: String, val fecha: String)
 
 
 class WelcomeScreen : Screen {
@@ -27,14 +25,14 @@ class WelcomeScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.current
         val proyectosFinalizados = listOf(
-            Proyecto(1, "Proyecto1", "20/1/2025"),
-            Proyecto(2, "Proyecto2", "20/1/2025"),
-            Proyecto(3, "Proyecto3", "20/1/2025"),
-            Proyecto(4, "Proyecto4", "20/1/2025"),
-            Proyecto(5, "Proyecto5", "20/1/2025"),
-            Proyecto(6, "Proyecto6", "20/1/2025"),
-            Proyecto(7, "Proyecto7", "20/1/2025"),
-            Proyecto(8, "Proyecto8", "20/1/2025"),
+            Proyecto(1, "Proyecto1", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
+            Proyecto(2, "Proyecto2", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
+            Proyecto(3, "Proyecto3", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
+            Proyecto(4, "Proyecto4", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
+            Proyecto(5, "Proyecto5", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
+            Proyecto(6, "Proyecto6", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
+            Proyecto(7, "Proyecto7", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
+            Proyecto(8, "Proyecto8", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
         )
         Column(
             modifier = Modifier.background(Color(backgroundLight)).fillMaxSize().padding(20.dp)
@@ -67,11 +65,12 @@ class WelcomeScreen : Screen {
 
             Spacer(modifier = Modifier.height(15.dp))
 
+            Text("Historial", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             LazyColumn(
                 modifier = Modifier.height(200.dp)
             ) {
                 items(proyectosFinalizados) { proyecto ->
-                    ProyectoItem(proyecto)
+                    ProyectoFinItem(proyecto)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }
@@ -89,7 +88,7 @@ class WelcomeScreen : Screen {
 }
 
 @Composable
-fun ProyectoItem(proyecto: Proyecto) {
+fun ProyectoFinItem(proyecto: Proyecto) {
     var colorFondo: Long = foregroundLight
     if (proyecto.id % 2 == 0){
         colorFondo = foregroundSecondaryLight
@@ -100,6 +99,6 @@ fun ProyectoItem(proyecto: Proyecto) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(proyecto.nombre)
-        Text(proyecto.fecha, color = Color.Red)
+        proyecto.fecha_finalizacion?.let { Text(it, color = Color.Red) }
     }
 }
