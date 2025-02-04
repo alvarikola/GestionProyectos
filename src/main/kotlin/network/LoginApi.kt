@@ -1,10 +1,13 @@
 package network
 
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import modelo.LoginRequest
+import modelo.User
 import network.NetworkUtils.httpClient
 import utils.sha512
 
