@@ -26,8 +26,6 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:3.0.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.3")
     implementation("io.ktor:ktor-client-cio:3.0.3")
-    // https://mvnrepository.com/artifact/org.jetbrains.androidx.navigation/navigation-compose
-    //implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha12")
 
     implementation("cafe.adriel.voyager:voyager-navigator:${property("voyager.version")}")
     implementation("cafe.adriel.voyager:voyager-transitions:${property("voyager.version")}")
