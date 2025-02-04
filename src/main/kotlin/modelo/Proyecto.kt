@@ -1,3 +1,5 @@
+package modelo
+
 data class Proyecto(
     val id: Int,
     val nombre: String,

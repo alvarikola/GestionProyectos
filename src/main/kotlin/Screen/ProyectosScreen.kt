@@ -1,3 +1,6 @@
+package Screen
+
+import modelo.Proyecto
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,14 +28,14 @@ class ProyectosScreen : Screen {
         val navigator = LocalNavigator.current
 
         val proyectos = listOf(
-            Proyecto(1, "Proyecto1", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
-            Proyecto(2, "Proyecto2", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
-            Proyecto(3, "Proyecto3", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
-            Proyecto(4, "Proyecto4", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
-            Proyecto(5, "Proyecto5", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
-            Proyecto(6, "Proyecto6", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
-            Proyecto(7, "Proyecto7", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
-            Proyecto(8, "Proyecto8", "Es un proyecto","20/1/2025","20/1/2025","20/1/2025", 2),
+            Proyecto(1, "Proyecto1", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
+            Proyecto(2, "Proyecto2", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
+            Proyecto(3, "Proyecto3", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
+            Proyecto(4, "Proyecto4", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
+            Proyecto(5, "Proyecto5", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
+            Proyecto(6, "Proyecto6", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
+            Proyecto(7, "Proyecto7", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
+            Proyecto(8, "Proyecto8", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
         )
 
         Column(
