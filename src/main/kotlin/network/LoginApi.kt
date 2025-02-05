@@ -2,6 +2,7 @@ package network
 
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,7 @@ fun apiLogIn(usuario: String, password: String, onSuccessResponse: (User) -> Uni
             setBody(LoginRequest(usuario, sha512(password)))
         }
         if (response.status == HttpStatusCode.OK) {
-            val user = response.body<user>()
+            val user = response.body<User>()
             onSuccessResponse(user)
         } else {
             println("Error: ${response.status}, Body: ${response.bodyAsText()}")
