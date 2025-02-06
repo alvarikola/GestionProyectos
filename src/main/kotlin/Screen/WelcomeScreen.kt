@@ -10,6 +10,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,17 +31,10 @@ class WelcomeScreen(val user: User) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-
-        val proyectosFinalizados = listOf(
-            Proyecto(1, "Proyecto1", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(2, "Proyecto2", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(3, "Proyecto3", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(4, "Proyecto4", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(5, "Proyecto5", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(6, "Proyecto6", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(7, "Proyecto7", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(8, "Proyecto8", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-        )
+        val historyList = remember { mutableStateOf(emptyList<Proyecto>()) }
+        apiObtenerHistorial {
+            historyList.value = it
+        }
         Column(
             modifier = Modifier.background(Color(backgroundLight)).fillMaxSize().padding(20.dp)
         ) {
@@ -71,9 +66,13 @@ class WelcomeScreen(val user: User) : Screen {
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            Text("Historial", fontSize = 25.sp, fontWeight = FontWeight.Bold)
-            apiObtenerHistorial {
-
+            if (historyList.value.isNotEmpty()) {
+                Text("Historial", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                LazyColumn(modifier = Modifier.padding(top = 5.dp)) {
+                    items(historyList.value) {
+                        ProyectoFinItem(it)
+                    }
+                }
             }
 
             Button(
