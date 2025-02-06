@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import network.apiLogIn
 import theme.*
 
 
@@ -24,7 +25,7 @@ class LoginScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        var user by remember { mutableStateOf("") }
+        var usuario by remember { mutableStateOf("") }
         var passwd by remember { mutableStateOf("") }
 
         Column(
@@ -48,8 +49,8 @@ class LoginScreen : Screen {
                         fontWeight = FontWeight.Bold
                     )
                     OutlinedTextField(
-                        value = user,
-                        onValueChange = {user = it},
+                        value = usuario,
+                        onValueChange = {usuario = it},
                         label = { Text("Username") },
                         modifier = Modifier,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -69,7 +70,13 @@ class LoginScreen : Screen {
                     )
                     Button(
                         onClick = {
-                            navigator?.push(WelcomeScreen())
+                            if (usuario.isNotEmpty() && passwd.isNotEmpty()) {
+                                apiLogIn(usuario, passwd) { user ->
+                                    usuario = ""
+                                    passwd = ""
+                                    navigator?.push(WelcomeScreen())
+                                }
+                            }
                         },
                         modifier = Modifier.padding(20.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color(backgroundDark))
