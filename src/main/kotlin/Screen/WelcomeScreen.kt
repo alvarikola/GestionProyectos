@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import modelo.User
+import network.apiObtenerHistorial
 import theme.*
 
 
@@ -71,14 +72,10 @@ class WelcomeScreen(val user: User) : Screen {
             Spacer(modifier = Modifier.height(15.dp))
 
             Text("Historial", fontSize = 25.sp, fontWeight = FontWeight.Bold)
-            LazyColumn(
-                modifier = Modifier.height(200.dp)
-            ) {
-                items(proyectosFinalizados) { proyecto ->
-                    ProyectoFinItem(proyecto)
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
+            apiObtenerHistorial {
+
             }
+
             Button(
                 onClick = {
                     navigator?.pop()
