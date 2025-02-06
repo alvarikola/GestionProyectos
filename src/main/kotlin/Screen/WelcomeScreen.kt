@@ -19,14 +19,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import modelo.User
 import theme.*
 
 
 
-class WelcomeScreen : Screen {
+class WelcomeScreen(val user: User) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
+
         val proyectosFinalizados = listOf(
             Proyecto(1, "Proyecto1", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
             Proyecto(2, "Proyecto2", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
@@ -44,7 +46,7 @@ class WelcomeScreen : Screen {
                 modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(7.dp)).background(Color(foregroundSecondaryDark)).padding(20.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                Text(text = "Hola caballo homosexual de las montañas, te has registrado como gestor", fontSize = 20.sp, color = Color.White)
+                Text(text = "Hola " + user.nombre + " te has registrado como gestor", fontSize = 20.sp, color = Color.White)
             }
 
             Spacer(modifier = Modifier.height(15.dp))

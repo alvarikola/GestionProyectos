@@ -74,7 +74,7 @@ class LoginScreen : Screen {
                                 apiLogIn(usuario, passwd) { user ->
                                     usuario = ""
                                     passwd = ""
-                                    navigator?.push(WelcomeScreen())
+                                    navigator?.push(WelcomeScreen(user))
                                 }
                             }
                         },
