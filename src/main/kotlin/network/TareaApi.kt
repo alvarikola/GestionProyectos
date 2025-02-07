@@ -32,13 +32,12 @@ fun apiObtenerTareas(id: Int, onSuccessResponse: (List<Tarea>) -> Unit) {
 }
 
 
-fun apiAsignarTarea(nombre: String, descripcion: String, estimacion: Int, fecha_creacion: String,
-                    fecha_finalizacion: String?, programador: Int, proyecto: Int, onSuccessResponse: (Tarea) -> Unit) {
+fun apiAsignarTarea(nuevaTarea: TareaRequest, onSuccessResponse: (Tarea) -> Unit) {
     val url = "http://127.0.0.1:5000/proyecto/tarea_proyecto"
     CoroutineScope(Dispatchers.IO).launch {
         val response = httpClient.post(url) {
             contentType(ContentType.Application.Json)
-            setBody(TareaRequest(nombre, descripcion, estimacion, fecha_creacion, fecha_finalizacion, programador, proyecto))
+            setBody(nuevaTarea)
         }
         if (response.status == HttpStatusCode.OK) {
             val tarea = response.body<Tarea>()
