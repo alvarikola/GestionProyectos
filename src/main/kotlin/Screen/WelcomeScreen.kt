@@ -55,7 +55,7 @@ class WelcomeScreen(val user: User) : Screen {
                 Text(text = "Proyectos activos", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.White)
                 Button(
                     onClick = {
-                        navigator?.push(ProyectosScreen())
+                        navigator?.push(ProyectosScreen(user))
                     },
                     modifier = Modifier.padding(20.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(backgroundDark))
