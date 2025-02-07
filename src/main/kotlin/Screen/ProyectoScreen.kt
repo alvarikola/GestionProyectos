@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import modelo.Tarea
+import modelo.TareaRequest
+import network.apiAsignarTarea
 import network.apiObtenerTareas
 import theme.*
 
@@ -65,6 +67,10 @@ class ProyectoScreen(proyecto: Proyecto): Screen {
 
             Text("Asignar", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             DropdownMenuExample()
+            val nuevaTarea = TareaRequest(nombre, descripcion, estimacion, fecha_creacion, fecha_finalizacion, programador, proyecto)
+            apiAsignarTarea(nuevaTarea) {
+
+            }
         }
 
     }
