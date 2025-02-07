@@ -20,24 +20,26 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import theme.*
 import androidx.compose.foundation.lazy.items
+import modelo.User
+import network.apiObtenerHistorial
+import network.apiObtenerProyectos
+import network.apiObtenerProyectosMios
 
 
-class ProyectosScreen : Screen {
+class ProyectosScreen(val user: User) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
 
-        val proyectos = listOf(
-            Proyecto(1, "Proyecto1", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(2, "Proyecto2", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(3, "Proyecto3", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(4, "Proyecto4", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(5, "Proyecto5", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(6, "Proyecto6", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(7, "Proyecto7", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-            Proyecto(8, "Proyecto8", "Es un proyecto", "20/1/2025", "20/1/2025", "20/1/2025", 2),
-        )
+        val proyectsList = remember { mutableStateOf(emptyList<Proyecto>()) }
+        apiObtenerProyectos {
+            proyectsList.value = it
+        }
 
+        val misProyectsList = remember { mutableStateOf(emptyList<Proyecto>()) }
+        apiObtenerProyectosMios(user.idGestor) {
+            misProyectsList.value = it
+        }
         Column(
             modifier = Modifier.background(Color(backgroundLight)).fillMaxSize().padding(20.dp)
         ) {
@@ -51,12 +53,11 @@ class ProyectosScreen : Screen {
             }
             Spacer(modifier = Modifier.height(15.dp))
 
-            LazyColumn(
-                modifier = Modifier
-            ) {
-                items(proyectos) { proyecto ->
-                    ProyectoItem(proyecto)
-                    Spacer(modifier = Modifier.height(10.dp))
+            if (proyectsList.value.isNotEmpty()) {
+                LazyColumn(modifier = Modifier.padding(top = 5.dp)) {
+                    items(proyectsList.value) {
+                        ProyectoItem(it)
+                    }
                 }
             }
 
