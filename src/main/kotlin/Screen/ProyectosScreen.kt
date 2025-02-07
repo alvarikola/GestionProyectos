@@ -97,10 +97,12 @@ fun ProyectoItem(proyecto: Proyecto) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Text("${proyecto.id}")
         Column {
             Text(proyecto.nombre)
             Text(proyecto.descripcion)
         }
+
         Button(
             onClick = {
                 navigator?.push(ProyectoScreen(proyecto))
