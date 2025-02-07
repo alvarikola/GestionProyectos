@@ -21,7 +21,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import theme.*
 import androidx.compose.foundation.lazy.items
 import modelo.User
-import network.apiObtenerHistorial
 import network.apiObtenerProyectos
 import network.apiObtenerProyectosMios
 
@@ -40,6 +39,22 @@ class ProyectosScreen(val user: User) : Screen {
         apiObtenerProyectosMios(user.idGestor) {
             misProyectsList.value = it
         }
+
+        // Estado para la opción seleccionada (0 para Todos, 1 para Mios)
+        var selectedIndex by remember { mutableStateOf(0) }
+
+        // Estado para la lista de proyectos que se muestra
+        val proyectosMostrados = remember { mutableStateOf<List<Proyecto>>(emptyList()) }
+
+        // Actualizar la lista mostrada cuando cambia la selección
+        LaunchedEffect(selectedIndex) {
+            proyectosMostrados.value = when (selectedIndex) {
+                0 -> proyectsList.value  // Todos
+                1 -> misProyectsList.value  // Míos
+                else -> emptyList()
+            }
+        }
+
         Column(
             modifier = Modifier.background(Color(backgroundLight)).fillMaxSize().padding(20.dp)
         ) {
@@ -49,13 +64,13 @@ class ProyectosScreen(val user: User) : Screen {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = "Proyectos", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                SegmentedControl()
+                SegmentedControl(selectedIndex = selectedIndex, onIndexChanged = { selectedIndex = it })
             }
             Spacer(modifier = Modifier.height(15.dp))
 
-            if (proyectsList.value.isNotEmpty()) {
+            if (proyectosMostrados.value.isNotEmpty()) {
                 LazyColumn(modifier = Modifier.padding(top = 5.dp)) {
-                    items(proyectsList.value) {
+                    items(proyectosMostrados.value) {
                         ProyectoItem(it)
                     }
                 }
@@ -101,8 +116,7 @@ fun ProyectoItem(proyecto: Proyecto) {
 
 
 @Composable
-fun SegmentedControl() {
-    var selectedIndex by remember { mutableStateOf(0) }
+fun SegmentedControl(selectedIndex: Int, onIndexChanged: (Int) -> Unit) {
     val options = listOf("Todos", "Mios")
 
     Row(
@@ -111,7 +125,7 @@ fun SegmentedControl() {
     ) {
         options.forEachIndexed { index, label ->
             SegmentedButton(
-                onClick = { selectedIndex = index },
+                onClick = { onIndexChanged (index) },
                 selected = index == selectedIndex,
                 label = { Text(label) }
             )
