@@ -13,10 +13,6 @@ import modelo.User
 import network.NetworkUtils.httpClient
 import utils.sha512
 
-fun apiCrearProyecto() {
-
-}
-
 
 fun apiObtenerHistorial(onSuccessResponse: (List<Proyecto>) -> Unit) {
     val url = "http://127.0.0.1:5000/proyecto/historial"
