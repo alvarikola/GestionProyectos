@@ -6,15 +6,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import modelo.Proyecto
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
@@ -36,6 +36,17 @@ class ProyectoScreen(proyecto: Proyecto): Screen {
         apiObtenerTareas(proyectoSeleccionado.id) {
             tareasList.value = it
         }
+
+        var showDialog by remember { mutableStateOf(false) }
+        var nombreTarea by remember { mutableStateOf("") }
+        var descripcionTarea by remember { mutableStateOf("") }
+        var estimacion by remember { mutableStateOf(0) }
+        var fecha_creacion by remember { mutableStateOf("") }
+        var fecha_finalizacion by remember { mutableStateOf("") }
+        var programador by remember { mutableStateOf(0) }
+
+
+
 
         Column(modifier = Modifier.background(Color(backgroundLight)).fillMaxSize().padding(20.dp)) {
             Row(
@@ -66,10 +77,86 @@ class ProyectoScreen(proyecto: Proyecto): Screen {
             }
 
             Text("Asignar", fontSize = 25.sp, fontWeight = FontWeight.Bold)
-            DropdownMenuExample()
-            val nuevaTarea = TareaRequest(nombre, descripcion, estimacion, fecha_creacion, fecha_finalizacion, programador, proyecto)
-            apiAsignarTarea(nuevaTarea) {
 
+            Column(modifier = Modifier.padding(16.dp)) {
+                Button(onClick = { showDialog = true }) {
+                    Text("Asignar Tarea")
+                }
+
+                if (showDialog) {
+                    AlertDialog(
+                        onDismissRequest = { showDialog = false },
+                        confirmButton = {
+                            TextButton(onClick = {
+                                val nuevaTarea = TareaRequest(
+                                    nombreTarea,
+                                    descripcionTarea,
+                                    estimacion,
+                                    fecha_creacion,
+                                    fecha_finalizacion,
+                                    programador,
+                                    proyectoSeleccionado.id
+                                )
+                                apiAsignarTarea(nuevaTarea) {
+                                    // Se podría actualizar la lista de tareas después de asignar una nueva.
+                                    apiObtenerTareas(proyectoSeleccionado.id) {
+                                        tareasList.value = it
+                                    }
+                                }
+                                showDialog = false
+                            }) {
+                                Text("Añadir")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showDialog = false }) {
+                                Text("Cancelar")
+                            }
+                        },
+                        title = { Text("Asignar Nueva Tarea") },
+                        text = {
+                            Column {
+                                TextField(
+                                    value = nombreTarea,
+                                    onValueChange = { nombreTarea = it },
+                                    label = { Text("Nombre de la Tarea") }
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                TextField(
+                                    value = descripcionTarea,
+                                    onValueChange = { descripcionTarea = it },
+                                    label = { Text("Descripción") }
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                TextField(
+                                    value = estimacion.toString(),
+                                    onValueChange = { estimacion = it.toIntOrNull() ?: 0 },
+                                    label = { Text("Estimación (horas)") },
+                                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                TextField(
+                                    value = fecha_creacion,
+                                    onValueChange = { fecha_creacion = it },
+                                    label = { Text("Fecha de Creación") }
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                TextField(
+                                    value = fecha_finalizacion,
+                                    onValueChange = { fecha_finalizacion = it },
+                                    label = { Text("Fecha de Finalización") }
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                TextField(
+                                    value = programador.toString(),
+                                    onValueChange = { programador = it.toIntOrNull() ?: 0 },
+                                    label = { Text("Programador ID") },
+                                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                                )
+                            }
+                        }
+                    )
+                }
             }
         }
 
